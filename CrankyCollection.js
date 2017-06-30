@@ -10,7 +10,7 @@ var CrankyCollection = function(prm1, prm2) {
                                 query.findIndex(function(d) {
                                         var tmp = prm2.indexOf(d, index)
                                         if (tmp != -1) {
-                                                index = tmp + query.length;
+                                                index = tmp + query.length-1;
 				return true;
                                         }
                                         return false;
