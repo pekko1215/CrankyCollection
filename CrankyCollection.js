@@ -7,27 +7,36 @@ var CrankyCollection = function(prm1, prm2) {
                 // console.log(prm2.substr(index))
                 switch (true) {
                         case Array.isArray(query):
-                                query.findIndex(function(d) {
-                                        var tmp = prm2.indexOf(d, index)
-                                        if (tmp != -1) {
-                                                index = tmp + query.length-1;
-				return true;
-                                        }
-                                        return false;
-                                })
+                                if (query.findIndex(function(d) {
+                                                var tmp = prm2.indexOf(d, index)
+                                                if (tmp != -1) {
+                                                        index = tmp + query.length - 1;
+                                                        return true;
+                                                }
+                                                return false;
+                                        })==-1 && index == 0) {
+                                                return [];
+                                }
                                 break;
                         case typeof query == "object":
                                 break;
                         case typeof query == "function":
-		        while(query(prm2.substr(index,1))){
-			index++;
-			if(prm2.length==index){
-				break;
-			}
-		        }
-		        break;
+                                while (query(prm2.substr(index, 1))) {
+                                        index++;
+                                        if (prm2.length == index) {
+                                                break;
+                                        }
+                                }
+                                break;
                         case typeof query == "string":
-                                index = prm2.indexOf(query, index)+query.length;
+                                var i = prm2.indexOf(query, index)
+                                if(i!=-1){
+                                        index =  + query.length;
+                                }else{
+                                        if(index==0){
+                                                return [];
+                                        }
+                                }
                                 break;
                         case typeof query == "boolean":
                                 if (query) {
