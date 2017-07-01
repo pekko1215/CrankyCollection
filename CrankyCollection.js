@@ -21,6 +21,9 @@ var CrankyCollection = function(prm1, prm2) {
                         case typeof query == "function":
 		        while(query(prm2.substr(index,1))){
 			index++;
+			if(prm2.length==index){
+				break;
+			}
 		        }
 		        break;
                         case typeof query == "string":
@@ -44,3 +47,6 @@ var CrankyCollection = function(prm1, prm2) {
         }
         return ret;
 }
+
+var $$ = CrankyCollection
+module.exports = $$;
