@@ -3,8 +3,8 @@ var CrankyCollection = function(prm1, prm2) {
         var query;
         var index = 0;
         var readstart = -1;
+        var jumper = {};
         while (typeof(query = prm1.shift()) !== "undefined") {
-                // console.log(prm2.substr(index))
                 switch (true) {
                         case Array.isArray(query):
                                 if (query.findIndex(function(d) {
@@ -19,6 +19,17 @@ var CrankyCollection = function(prm1, prm2) {
                                 }
                                 break;
                         case typeof query == "object":
+                                Object.keys(query).forEach(function(key){
+                                        if(key in jumper){
+                                                if(jumper[key]==true){
+                                                        index = jumper[key];
+                                                }
+                                        }else{
+                                                if(query[key]==true){
+                                                        jumper[key] = index;
+                                                }
+                                        }
+                                })
                                 break;
                         case typeof query == "function":
                                 while (query(prm2.substr(index, 1))) {
@@ -31,7 +42,7 @@ var CrankyCollection = function(prm1, prm2) {
                         case typeof query == "string":
                                 var i = prm2.indexOf(query, index)
                                 if(i!=-1){
-                                        index =  + query.length;
+                                        index =  i + query.length;
                                 }else{
                                         if(index==0){
                                                 return [];
